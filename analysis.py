@@ -9,6 +9,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import scipy.optimize as optimize
 from PIL import Image
+import json
+from streamlit_lottie import st_lottie
 
 from MCForecastToolsActDD import MCSimulation
 
@@ -728,6 +730,40 @@ try:
     date1 = pd.to_datetime(returns.index[-1], format='%Y-%m-%d')
 
 
+
+
+    #url = 'animation_ljzfr9ug.json'
+    url='data.json'
+
+    with open(url, 'r') as fson:  
+        res = json.load(fson)
+
+
+    url_json = res
+
+
+    with st.sidebar:
+        st_lottie(url_json,
+                # change the direction of our animation
+                reverse=True,
+                # height and width of animation
+                height=200,  
+                width=200,
+                # speed of animation
+                speed=1,  
+                # means the animation will run forever like a gif, and not as a still image
+                loop=True,  
+                # quality of elements used in the animation, other values are "low" and "medium"
+                quality='high',
+                # THis is just to uniquely identify the animation
+                key='Car',
+                )
+
+
+    #st.sidebar.header('Economic Activity')
+    st.sidebar.markdown("<h1 style='text-align: left; color: coral; padding-left: 0px; font-size: 25px'><b>Anaysis Inputs<b></h1>", unsafe_allow_html=True)
+
+
     st.markdown("<h1 style='text-align: left; color: #872657; padding-left: 0px; font-size: 40px'><b>Snapsot<b></h1>", unsafe_allow_html=True)
 
     startDate = st.sidebar.date_input('Start Date', date0)
@@ -865,6 +901,9 @@ try:
     col11.markdown("<h1 style='text-align: left; color: black; padding-left: 0px; font-size: 20px'><b>Optimal Portfolio Statistics<b></h1>", unsafe_allow_html=True)
     col11.plotly_chart(descriptiveTableFig)
 
+
+
+    st.sidebar.markdown("<h1 style='text-align: left; color: coral; padding-left: 0px; font-size: 25px'><b>MC Simulation<b></h1>", unsafe_allow_html=True)
 
     #numSim = st.sidebar.number_input('Simulation Paths', min_value=100, max_value=1000, value=500, step=1)
     numSim = 360
